@@ -1,0 +1,41 @@
+<%= stylesheet_link_tag "friends" %>
+<% if user_signed_in? %>
+  <table class="table table-bordered table-striped table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>User Id</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @friends.each do |friend| %>
+      <% if friend.user == current_user %> 
+      <!-- chỉ hiện thị friends của user đó. không hiển thị cả user sing in -->
+        <tr>
+          <td> <%=  link_to friend.first_name+' '+friend.last_name , friend   %></td>
+          <td><%= friend.email %></td>
+          <td><%= friend.phone %></td>
+          <td><%= friend.address %></td>
+          <td><%= friend.user_id %></td>
+
+          <td><%= link_to 'Show', friend %></td>
+          <td><%= link_to 'Edit', edit_friend_path(friend) %></td>
+          <td><%= link_to 'Delete', friend, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+
+  <br>
+
+  <%= link_to 'New Friend', new_friend_path , class:"btn btn-secondary"%>
+<% else %>
+<h1> Hello Your</h1>
+<p>Wellcome rails. You have to sing in</p>
+<%end %>
